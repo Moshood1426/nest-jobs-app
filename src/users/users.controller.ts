@@ -1,5 +1,14 @@
-import { Controller, Post, Body, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  UseInterceptors,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LoginBodyDto } from './dto/login-body-dto';
 import { RegisterBodyDto } from './dto/register-body-dto';
 import { GenTokenInterceptor } from './interceptors/generateToken.interceptors';
@@ -13,14 +22,21 @@ export class UsersController {
   ) {}
 
   @UseInterceptors(GenTokenInterceptor)
-  @Post("/register")
+  @Post('/register')
   register(@Body() body: RegisterBodyDto) {
     return this.authService.register(body);
   }
 
   @UseInterceptors(GenTokenInterceptor)
-  @Post("/login")
+  @Post('/login')
   login(@Body() body: LoginBodyDto) {
     return this.authService.signIn(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/showUser')
+  showUser(@Request() req) {
+    const id = req.user.userId;
+    return this.usersService.showUser(id);
   }
 }

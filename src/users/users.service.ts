@@ -9,4 +9,7 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepo: Repository<User>,
   ) {}
 
+  showUser(id: string) {
+    return this.usersRepo.findOneBy({ id });
+  }
 }

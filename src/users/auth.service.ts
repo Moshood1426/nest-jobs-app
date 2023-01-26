@@ -40,13 +40,7 @@ export class AuthService {
   async signIn(userObj: { email: string; password: string }) {
     const { email, password } = userObj;
     const user = await this.usersRepo.findOneBy({ email });
-    const newUser = await this.usersRepo
-      .createQueryBuilder('user')
-     // .select('id email')
-      .where('user.email = email')
-      .getOne();
-
-    console.log(newUser)
+  
     if (!user) {
       throw new NotFoundException('User with email does not exist');
     }
