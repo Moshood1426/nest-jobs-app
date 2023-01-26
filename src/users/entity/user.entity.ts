@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, BeforeInsert } from 'typeorm';
 
 @Entity()
 export class User {
@@ -13,4 +13,7 @@ export class User {
 
   @Column()
   password: string;
+
+  // @BeforeInsert()
+  // beforeInsert() {}
 }
