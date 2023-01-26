@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  UnauthorizedException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { Repository } from 'typeorm';
@@ -29,6 +34,28 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return this.usersRepo.save(user)
+    return this.usersRepo.save(user);
+  }
+
+  async signIn(userObj: { email: string; password: string }) {
+    const { email, password } = userObj;
+    const user = await this.usersRepo.findOneBy({ email });
+    const newUser = await this.usersRepo
+      .createQueryBuilder('user')
+     // .select('id email')
+      .where('user.email = email')
+      .getOne();
+
+    console.log(newUser)
+    if (!user) {
+      throw new NotFoundException('User with email does not exist');
+    }
+
+    const confirmPassword = await bcrypt.compare(password, user.password);
+    if (!confirmPassword) {
+      throw new UnauthorizedException('Invalid credentials.');
+    }
+
+    return user;
   }
 }
