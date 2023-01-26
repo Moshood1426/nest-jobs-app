@@ -1,7 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterBodyDto } from './dto/register-body-dto';
+import { GenTokenInterceptor } from './interceptors/generateToken.interceptors';
 import { UsersService } from './users.service';
+
 @Controller('users')
 export class UsersController {
   constructor(
@@ -9,7 +11,8 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
-  @Post('users')
+  @UseInterceptors(GenTokenInterceptor)
+  @Post()
   register(@Body() body: RegisterBodyDto) {
     return this.authService.register(body)
   }

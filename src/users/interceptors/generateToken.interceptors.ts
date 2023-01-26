@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-class generateToken implements NestInterceptor {
+export class GenTokenInterceptor implements NestInterceptor {
   constructor(private jwtService: JwtService) {}
 
   intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
