@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { User } from './decorator/user.decorator';
 import { LoginBodyDto } from './dto/login-body-dto';
 import { RegisterBodyDto } from './dto/register-body-dto';
 import { GenTokenInterceptor } from './interceptors/generateToken.interceptors';
@@ -35,8 +36,17 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/showUser')
-  showUser(@Request() req) {
-    const id = req.user.userId;
+  showUser(
+    @Request() req: Request,
+    @User() user: { userId: string; email: string },
+  ) {
+    const id = user.userId;
     return this.usersService.showUser(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  //authorize permissions
+  deleteUser(id: string) {
+    return this.usersService.deleteUser(id);
   }
 }
