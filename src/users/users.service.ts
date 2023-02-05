@@ -10,12 +10,16 @@ export class UsersService {
   ) {}
 
   showUser(id: string) {
-    return this.usersRepo.findOneBy({ id });
+    return this.usersRepo.findOneBy({ id: +id });
   }
 
   async deleteUser(id: string) {
-    const user = await this.usersRepo.findOneBy({ id });
+    const user = await this.usersRepo.findOneBy({ id: +id });
 
-    return this.usersRepo.remove(user)
+    return this.usersRepo.remove(user);
+  }
+
+  findOne(id: number) {
+    return this.usersRepo.findOneBy({ id: id });
   }
 }

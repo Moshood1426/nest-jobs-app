@@ -13,7 +13,7 @@ type JobType = 'full-time' | 'part-time' | 'remote' | 'internship';
 @Entity()
 export class JobEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   company: string;
@@ -22,16 +22,16 @@ export class JobEntity {
   position: string;
 
   @Column({
-    type: 'enum',
-    enum: ['interview', 'declined', 'pending'],
-    default: 'pending',
+    // type: 'enum',
+    // enum: ['interview', 'declined', 'pending'],
+    // default: 'pending',
   })
   status: string;
 
   @Column({
-    type: 'enum',
-    enum: ['full-time', 'part-time', 'remote', 'internship'],
-    default: 'full-time',
+    // type: 'enum',
+    // enum: ['full-time', 'part-time', 'remote', 'internship'],
+    // default: 'full-time',
   })
   jobType: string;
 

@@ -4,7 +4,7 @@ import { PrimaryGeneratedColumn, Column, Entity, BeforeInsert, OneToMany } from 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   email: string;

@@ -19,5 +19,6 @@ import { JwtStrategy } from './auth/jwt.strategy';
       signOptions: { expiresIn: jwtConstants.lifetime},
     }),
   ],
+  exports: [UsersService]
 })
 export class UsersModule {}
