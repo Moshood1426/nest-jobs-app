@@ -38,6 +38,7 @@ export class JobEntity {
   @Column({ default: 'my city' })
   jobLocation: string;
 
+  
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn()
   createdBy: User;

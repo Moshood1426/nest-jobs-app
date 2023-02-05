@@ -8,7 +8,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from './decorator/user.decorator';
 import { LoginBodyDto } from './dto/login-body-dto';
 import { RegisterBodyDto } from './dto/register-body-dto';

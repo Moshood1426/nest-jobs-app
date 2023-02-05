@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { CreateJobDto } from './dto/create-job-body.dto';
 import { JobEntity } from './entity/job.entity';
+import { checkPermissions } from 'src/utils/checkPermissions';
 
 @Injectable()
 export class JobsService {
@@ -23,6 +24,17 @@ export class JobsService {
     job.createdBy = currentUser;
 
     return this.jobsRepo.save(job);
+  }
+
+  async delete(id: number, user: User) {
+    const job = await this.jobsRepo.findOne({ where: { id } });
+    if (!job) {
+      throw new NotFoundException('Job with id not found');
+    }
+
+    checkPermissions(user.id, job.createdBy.id);
+
+    return this.jobsRepo.remove(job);
   }
 
   getAll() {}
